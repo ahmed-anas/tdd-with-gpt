@@ -1,0 +1,48 @@
+{
+  "name": "tdd-with-gpt",
+  "displayName": "TDD with GPT",
+  "description": "\"TDDWithGPT\" is a powerful VSCode extension that seamlessly integrates Test-Driven Development (TDD) with the capabilities of the GPT (Generative Pre-trained Transformer) model. Write unit tests for your code, and let the AI-powered extension generate the actual code implementation that passes those tests. Boost your coding productivity, streamline development, and ensure code correctness with this innovative development tool. Start coding smarter with TDDWithGPT today.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.81.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "browser": "./dist/web/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tdd-with-gpt.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
+    "pretest": "npm run compile-web",
+    "vscode:prepublish": "npm run package-web",
+    "compile-web": "webpack",
+    "watch-web": "webpack --watch",
+    "package-web": "webpack --mode production --devtool hidden-source-map",
+    "lint": "eslint src --ext ts",
+    "run-in-browser": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. ."
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.81.0",
+    "@types/mocha": "^10.0.1",
+    "eslint": "^8.47.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.6",
+    "@vscode/test-web": "^0.0.45",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "@types/webpack-env": "^1.18.1",
+    "assert": "^2.0.0",
+    "process": "^0.11.10"
+  }
+}
