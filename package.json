@@ -16,8 +16,21 @@
       {
         "command": "tdd-with-gpt.helloWorld",
         "title": "Hello World"
+      },
+      {
+          "command": "tdd-with-gpt.generateCode",
+          "title": "Generate Code"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "tdd-with-gpt.generateCode",
+          "group": "inline",
+          "when": "editorHasSelection && editorTextFocus"
+        }
+      ]
+    }
   },
   "scripts": {
     "test": "vscode-test-web --browserType=chromium --extensionDevelopmentPath=. --extensionTestsPath=dist/web/test/suite/index.js",
@@ -46,3 +59,4 @@
     "process": "^0.11.10"
   }
 }
+

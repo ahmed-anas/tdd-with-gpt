@@ -1,6 +1,8 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { GenerateCode } from './commands/generate-code';
+import { CommandInterface } from './commands/command-interface';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -21,6 +23,18 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
+
+
+	let additionalCommands: CommandInterface[] = [new GenerateCode()];
+
+	additionalCommands.forEach(command => {
+		let myCommandDisposable = vscode.commands.registerCommand(command.getCommand(), () => {
+			
+			command.execute();
+		});
+	
+		context.subscriptions.push(myCommandDisposable);
+	});
 }
 
 // This method is called when your extension is deactivated
