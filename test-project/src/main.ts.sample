@@ -1,0 +1,32 @@
+import axios from 'axios';
+
+export async function getCommentsForMatchingPosts(partialPostName: string): Promise<any[]> {
+  const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+
+  if (response.status !== 200) {
+    throw new Error('Unknown status code returned');
+  }
+
+  const posts = response.data;
+  const matchingPosts = posts.filter((post: any) =>
+    post.title.includes(partialPostName)
+  );
+
+  if (matchingPosts.length === 0) {
+    throw new Error('No matching posts found.');
+  }
+
+  const commentPromises = matchingPosts.map(async (post: any) => {
+    const commentsResponse = await axios.get(
+      `https://jsonplaceholder.typicode.com/posts/${post.id}/comments`
+    );
+    return commentsResponse.data;
+  });
+
+  const commentsArray = await Promise.all(commentPromises);
+
+  const comments = commentsArray.flat();
+
+  return comments;
+
+}
