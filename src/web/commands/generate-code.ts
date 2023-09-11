@@ -7,15 +7,21 @@ export class GenerateCode implements CommandInterface {
     }
 
     async execute() {
+        const input = await this.getInput();
+        
+
+    }
+
+    private async getInput() {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
-            vscode.window.showErrorMessage('No text editor is active.');
-            return;
+            // vscode.window.showErrorMessage('No text editor is active.');
+            throw new Error('No text editor is active.');
         }
 
         const selectedText = editor.document.getText(editor.selection);
 
-        try {
+        // try {
             const fileUri = await vscode.window.showOpenDialog({
                 canSelectFiles: true,
                 canSelectFolders: false,
@@ -31,13 +37,16 @@ export class GenerateCode implements CommandInterface {
             const selectedFileUri = fileUri[0];
             // Do something with `selectedText` and `selectedFileUri`.
 
-            vscode.window.showInformationMessage(`
-                selected file: ${selectedFileUri}
-                selected text: ${selectedText}
-            `);
+            return {
+                selectedFileUri,
+                selectedText
+            };
 
-        } catch (error) {
-            vscode.window.showErrorMessage('An error occurred while selecting a file.');
-        }
+            // vscode.window.showInformationMessage(`
+            //     selected file: ${selectedFileUri}
+            //     selected text: ${selectedText}
+            // `);
+
+        // }   
     }
 }

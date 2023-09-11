@@ -3,6 +3,7 @@
 import * as vscode from 'vscode';
 import { GenerateCode } from './commands/generate-code';
 import { CommandInterface } from './commands/command-interface';
+import { SetOpenaiKey } from './commands/set-openai-key';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -25,7 +26,10 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposable);
 
 
-	let additionalCommands: CommandInterface[] = [new GenerateCode()];
+	let additionalCommands: CommandInterface[] = [
+		new GenerateCode(),
+		new SetOpenaiKey()
+	];
 
 	additionalCommands.forEach(command => {
 		let myCommandDisposable = vscode.commands.registerCommand(command.getCommand(), () => {
