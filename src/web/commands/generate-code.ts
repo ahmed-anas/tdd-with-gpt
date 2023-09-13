@@ -11,16 +11,20 @@ export class GenerateCode implements CommandInterface {
     }
 
     async execute() {
+        vscode.window.showInformationMessage('Getting ready to generate code, might take a few seconds...');
         const input = await this.getInput();
         const chain = this.getChain(input.selectedFileUri.path);
 
         // Read file content for the file that is at input.selectedFileUri
         const fileContent = await this.readFileContent(input.selectedFileUri);
-
         const response = await chain.generateCode(input.selectedText, fileContent);
+        await this.writeFile(input.selectedFileUri, response);
 
-        console.log(JSON.stringify(response));
-        vscode.window.showErrorMessage(JSON.stringify(response));
+        // Open the updated file
+        const updatedDocument = await vscode.workspace.openTextDocument(input.selectedFileUri);
+        await vscode.window.showTextDocument(updatedDocument);
+
+        vscode.window.showInformationMessage('File updated');
     }
 
     private getChain(key: string) {
@@ -55,6 +59,13 @@ export class GenerateCode implements CommandInterface {
             selectedFileUri,
             selectedText
         };
+    }
+
+    private async writeFile(fileUri: vscode.Uri, content: string): Promise<void> {
+        const contentUint8Array = new TextEncoder().encode(content);
+        await vscode.workspace.fs.writeFile(fileUri, contentUint8Array);
+        vscode.window.showInformationMessage(`File saved: ${fileUri.toString()}`);
+
     }
 
     private async readFileContent(fileUri: vscode.Uri): Promise<string> {
