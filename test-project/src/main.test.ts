@@ -73,7 +73,7 @@ describe('getCommentsForMatchingPosts', () => {
     });
 
     it('should handle API request failure when fetching posts', async () => {
-        mockAxios.onGet('https://jsonplaceholder.typicode.com/posts').reply(500, 'Internal Server Error');
+        mockAxios.onGet('https://jsonplaceholder.typicode.com/posts').reply(500, 'My test error');
 
         const partialPostName = 'Matching';
 
@@ -81,7 +81,7 @@ describe('getCommentsForMatchingPosts', () => {
             await getCommentsForMatchingPosts(partialPostName);
             fail('The promise should have rejected.');
         } catch(err) {
-            expect((err as AxiosError).response?.data).toBe('Internal Server Error');
+            expect((err as AxiosError).response?.data).toBe('My test error');
         }
     });
 
@@ -91,7 +91,7 @@ describe('getCommentsForMatchingPosts', () => {
         mockAxios.onGet('https://jsonplaceholder.typicode.com/posts').reply(200, postsResponseData);
 
         // Mock the response for fetching comments
-        mockAxios.onGet('https://jsonplaceholder.typicode.com/posts/1/comments').reply(500, 'Internal Server Error');
+        mockAxios.onGet('https://jsonplaceholder.typicode.com/posts/1/comments').reply(500, 'My test error');
 
         const partialPostName = 'Matching';
 
@@ -99,7 +99,7 @@ describe('getCommentsForMatchingPosts', () => {
             await getCommentsForMatchingPosts(partialPostName);
             fail('The promise should have rejected.');
         } catch(err) {
-            expect((err as AxiosError).response?.data).toBe('Internal Server Error');
+            expect((err as AxiosError).response?.data).toBe('My test error');
         }
     });
 });
